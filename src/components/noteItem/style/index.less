@@ -1,0 +1,50 @@
+@prefix: .blc-note;
+@{prefix}-component {
+    margin-top: 20px;
+    @{prefix} {
+        &-title {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        &-title__text {
+            font-size: 16px;
+            font-weight: bolder;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-decoration: underline;
+            color: #1890ff;
+            cursor: pointer;
+        }
+        &-property {
+            margin-top: -1em;
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.45);
+        }
+        &-property__time {
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+        &-property__type {
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+        &-property__tags {
+            cursor: pointer;
+        }
+        &-menu {
+            display: inline-block;
+            padding: 1px;
+            border-radius: 50%;
+            transition: all 0.2s;
+            border: 1px solid #ccc;
+            vertical-align: middle;
+            cursor: pointer;
+            &:hover {
+                color: #1890ff;
+                border-color: #1890ff;
+            }
+        }
+    }
+}

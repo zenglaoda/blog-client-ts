@@ -1,0 +1,57 @@
+/*
+    样式书写说明:
+        布局样式:blog-layout
+            元素样式以 bll- 作为前缀
+        页面样式: blog-page
+            页面根元素样式以 【blp-页面名-pgae】命名
+            页面元素样式以 blp-页面名 作为前缀
+            以blp-目录相对路径(以pages作为根目录)定义组件根样式，如blp-main
+        页面局部组件:blog-page-component
+            组件根元素以blpc-组件名-component命令
+            组件内元素以blpc-组件名 作为前缀
+        全局组件样式: blog-component
+            组件根元素样式以 【blc-组件名-component】命名
+            组件内元素样式以 blc-组件名 作为前缀
+        全局样式: 
+            以blg-作为前缀
+
+*/
+#app {
+    height: 100%;
+    width: 100%;
+}
+
+.blg {
+    &-ellipsis {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;        
+    }
+    &-ant-form-inline {
+        margin-bottom: 15px;
+        .ant-row {
+            margin-bottom: 8px;
+        }        
+    }
+    &-action {
+        padding-bottom: 5px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    &-fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        min-height: 100%;
+        min-width: 100%;
+        background-color: #fff;
+    }
+}
+
+[class^=bl],
+[class^=bl] *,
+[class^=bl]::before
+[class^=bl]::after{
+    box-sizing: border-box;
+}

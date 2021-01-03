@@ -1,0 +1,32 @@
+@prefix: bll;
+
+.@{prefix}-main-wrapper {
+    height: 100%;
+    .@{prefix} {
+        &-body {
+            height: 1px;
+            flex-grow: 1;
+        }
+        &-header {
+            height: 58px;
+        }
+        &-aside {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        &-main {
+            flex-grow: 1;
+            padding: 0 24px 24px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        &-content {
+            align-self: flex-start;
+            width: 100%;
+            min-height: calc(100% - 60px);
+            padding: 24px;
+            background-color: #fff;
+        }
+    }
+}
