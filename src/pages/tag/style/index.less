@@ -1,8 +1,13 @@
-.blp-tag-page {
-    max-width: 800px;
-    .blp-tag-main {
-        columns: 380px 2;
-        column-fill: auto;
-    }
+@import '~@/assets/style/var/index.less';
 
+@{w-prefix} {
+    @{p-prefix}-tag {
+        &-page {
+            max-width: 800px;
+        }
+        &-main {
+            columns: 380px 2;
+            column-fill: auto;
+        }
+    }
 }

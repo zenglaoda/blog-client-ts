@@ -93,7 +93,7 @@ plugins: babel官方插件，预设可以省略@babel前缀，后者加上该前
     必须严格书写。
 
     babel-plugin-react-require:
-        判断文件中是否需要自动添加引入react-dom文件的声明
+        判断文件中是否需要自动添加引入react文件的声明
 
     babel-plugin-import:
         按需引入文件，对import声明进行转化为更详细的引入，达到按需引入

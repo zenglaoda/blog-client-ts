@@ -1,57 +1,67 @@
 /*
-    样式书写说明:
-        布局样式:blog-layout
-            元素样式以 bll- 作为前缀
-        页面样式: blog-page
-            页面根元素样式以 【blp-页面名-pgae】命名
-            页面元素样式以 blp-页面名 作为前缀
-            以blp-目录相对路径(以pages作为根目录)定义组件根样式，如blp-main
-        页面局部组件:blog-page-component
-            组件根元素以blpc-组件名-component命令
-            组件内元素以blpc-组件名 作为前缀
-        全局组件样式: blog-component
+    样式命名约定:
+        全局样式(blg-): blog 
+            以 blg- 作为前缀
+        布局样式(bll-): blog-layout
+            以 bll- 作为前缀
+        全局组件样式(blc-): blog-component
             组件根元素样式以 【blc-组件名-component】命名
-            组件内元素样式以 blc-组件名 作为前缀
-        全局样式: 
-            以blg-作为前缀
+            组件内元素样式以 【blc-组件名】 作为前缀
+        页面样式(blp-): blog-page
+            页面根元素样式以 【blp-页面名-pgae】命名
+            页面内元素样式以 【blp-页面名】 作为前缀
+        页面局部组件(blpc):blog-page-component
+            页面组件根元素以 【blpc-组件名-component】命名
+            页面组件内元素以 【blpc-组件名】 作为前缀
+
+    全局样式覆盖问题:
+        1. antd引入了normalize.css全局重置了一些元素的样式
+        2. antd本身就是全局样式
+        3. 本项目也使用全局样式的写法，没有使用css 模块化
+        4. webpack拆包时不能控制样式加载的优先级，因此存在样式覆盖的问题，期望的加载顺序是
+        优先加载antd等其它库的全局样式，接着加载项目中定义的全局样式，最后加载页面局部的样式。
+        为了解决这个问题，现阶段的方案是给每个自定义的样式增加id选择器前缀以增加自定义样式的权重。
+
 
 */
-#app {
+@import './var/index.less';
+
+@{w-prefix} {
     height: 100%;
     width: 100%;
+    @{g-prefix} {
+        &-ellipsis {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;        
+        }
+        &-ant-form-inline {
+            margin-bottom: 15px;
+            .ant-row {
+                margin-bottom: 8px;
+            }        
+        }
+        &-action {
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        &-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            min-height: 100%;
+            min-width: 100%;
+            background-color: #fff;
+        }
+    }
+    
+    [class^=bl],
+    [class^=bl] *,
+    [class^=bl]::before,
+    [class^=bl]::after{
+        box-sizing: border-box;
+    }
 }
 
-.blg {
-    &-ellipsis {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;        
-    }
-    &-ant-form-inline {
-        margin-bottom: 15px;
-        .ant-row {
-            margin-bottom: 8px;
-        }        
-    }
-    &-action {
-        padding-bottom: 5px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    &-fullscreen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 2;
-        min-height: 100%;
-        min-width: 100%;
-        background-color: #fff;
-    }
-}
-
-[class^=bl],
-[class^=bl] *,
-[class^=bl]::before
-[class^=bl]::after{
-    box-sizing: border-box;
-}

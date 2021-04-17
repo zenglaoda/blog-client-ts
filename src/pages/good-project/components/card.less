@@ -1,0 +1,56 @@
+@import '~@/assets/style/var/index.less';
+
+@{w-prefix} {
+    @{pc-prefix}{
+        &-card-component {
+            height: 352px;
+            width: 293px;
+            a {
+                color: #337ab7;
+                text-decoration: none;
+            }
+            h3 {
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 1.1;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+            small {
+                font-weight: 400;
+                line-height: 1;
+                font-size: 14px;
+                color: #777;
+            }
+            p {
+                margin: 0 0 10px;
+                font-size: 14px;
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+            @{pc-prefix} {
+                &-thumbnail {
+                    display: block;
+                    padding: 4px;
+                    background-color: #fff;
+                    margin-right: auto;
+                    margin-left: auto;
+                    text-align: center;
+                    max-width: 310px;
+                    margin-bottom: 30px;
+                    border-radius: 0;
+                    border: 1px solid #ddd;
+                    transition: border .2s ease-in-out;
+                }
+                &-caption {
+                    height: 200px;
+                    padding: 9px;
+                    overflow-y: hidden;
+                    color: #555;
+                }
+            }
+        }
+    }
+}

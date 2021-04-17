@@ -1,6 +1,6 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // 解析路径
 function resolvePath(url) {
@@ -21,7 +21,7 @@ const webpackConfig = {
     devtool: 'cheap-module-eval-source-map',
 
     entry: {
-        app: resolvePath('src/app.js'),
+        app: resolvePath('src/app.tsx'),
     },
     output: {
         path: resolvePath('dist/'),
@@ -100,9 +100,9 @@ const webpackConfig = {
     ],
     resolve: {
         extensions: [
-            '.js',
-            '.ts',
             '.tsx',
+            '.ts',
+            '.js',
         ],
         alias: {
             '@': resolvePath('src')

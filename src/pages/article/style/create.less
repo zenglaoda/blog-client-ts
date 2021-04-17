@@ -1,20 +1,17 @@
-@prefix: blp-articleCreate;
+@import '~@/assets/style/var/index.less';
 
-.@{prefix}-page {
-    // margin: -24px;
-    .@{prefix} {
-        &-header {
-            margin-bottom: 10px;
-        }
-        &-header-button {
-            margin-right:10px;
-        }
-        &-editor {
-            
-        }
-        &-footer {
-            margin-top: 20px;
-            max-width: 500px;
+@{w-prefix} {
+    @{p-prefix}-articleCreate-page{
+        @{p-prefix} {
+            &-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+            &-form {
+                max-width: 800px;
+            }
         }
     }
 }

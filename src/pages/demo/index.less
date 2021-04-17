@@ -1,0 +1,20 @@
+.blp {
+    &-demo-page {
+
+    }
+    &-demo{
+        border: 1px solid #ccc;
+        height: 500px;
+        width: 500px;
+        overflow: auto;
+    }
+    &-demo & {
+        &-item {
+            height: 50px;
+            line-height: 50px;
+            font-size: 30px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+    }
+}

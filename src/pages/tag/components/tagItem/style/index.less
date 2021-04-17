@@ -1,18 +1,21 @@
-@prefix: blpc-tagItem;
-.@{prefix}-component {
-    display: inline-block;
-    width: 380px;
-    margin: 0 15px 15px 0;
-    padding: 10px 15px;
-    border-radius: 2px;
-    border: 1px solid  #d9d9d9;
-    box-shadow: 0 1px 2px 0 #f2f2f2;
-    // 渐进增强
-    // http://caibaojian.com/css3/properties/multi-column/column-break-before.htm
-    -webkit-column-break-inside: avoid;
-    -webkit-column-break-after: always;
-    -webkit-column-break-before: always;
-    .@{prefix} {
+@import '~@/assets/style/var/index.less';
+
+@{w-prefix} {
+    @{pc-prefix}-tagItem {
+        &-component {
+            display: inline-block;
+            width: 380px;
+            margin: 0 15px 15px 0;
+            padding: 10px 15px;
+            border-radius: 2px;
+            border: 1px solid  #d9d9d9;
+            box-shadow: 0 1px 2px 0 #f2f2f2;
+            // 渐进增强
+            // http://caibaojian.com/css3/properties/multi-column/column-break-before.htm
+            -webkit-column-break-inside: avoid;
+            -webkit-column-break-after: always;
+            -webkit-column-break-before: always;
+        }
         &-title {
             display: flex;
             align-items: center;
