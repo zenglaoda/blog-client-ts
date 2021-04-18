@@ -40,12 +40,12 @@ function ArticlePage() {
         const params = {
             page: pager.page,
             pageSize: pager.pageSize,
-            keyword: '',
+            keyword: formData.keyword,
+            status: formData.status,
             startDate: '',
             endDate: '',
             tagIds: '',
         };
-        params.keyword = formData.keyword || params.keyword;
 
         if (Array.isArray(formData.tagIds)) {
             params.tagIds = formData.tagIds.join(',');

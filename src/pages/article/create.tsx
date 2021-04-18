@@ -77,8 +77,8 @@ export default function CreateArticlePage(props: RouteComponentProps) {
 
     const editArticle = (params: FormData) => {
         return updateArticle(params)
-            .then(() => {
-                setArticleItem(Object.assign({}, articleItem, params));
+            .then((res) => {
+                setArticleItem(res);
                 contentChangedRef.current = false;
             })
             .catch(() => {})
@@ -105,8 +105,7 @@ export default function CreateArticlePage(props: RouteComponentProps) {
                 addArticle(baseFormData);
                 return;
             }
-            
-            let params: FormData = getChangedData(baseFormData, articleItem, ['title', 'description', 'keyword', 'content', 'status']);
+            let params: FormData = getChangedData(baseFormData, articleItem, ['tagId', 'title', 'description', 'keyword', 'content', 'status']);
             if (!params) {
                 message.info('未作任何修改!');
                 return;
@@ -118,7 +117,7 @@ export default function CreateArticlePage(props: RouteComponentProps) {
         
             params = baseFormData;
             params.id = articleItem.id;
-            !contentChangedRef.current && (params.content = undefined);
+            !contentChangedRef.current && (params.content = '');
 
             if (params.status === draft && articleItem.status === finished) {
                 Modal.confirm({
@@ -176,9 +175,11 @@ export default function CreateArticlePage(props: RouteComponentProps) {
 
     // 设置编辑器内容
     useEffect(() => {
-        if (editor && articleItem) {
-            editor.setMarkdown(articleItem.content);
+        if (!editor) {
+            return;
         }
+        const content = articleItem ? articleItem.content : '';
+        editor.setMarkdown(content || '');
     }, [editor, articleItem && articleItem.content]);
 
     // 获取详情

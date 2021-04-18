@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Dropdown  } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import TimeGo from '@/components/time-go';
 import './style/index.less';
 
 const { Paragraph } = Typography;
@@ -41,8 +42,8 @@ function TagItem(props) {
             </div>
             <div className="blpc-tagItem-property">
                 <span className="blpc-tagItem-property__item">
-                    创建时间:&nbsp;
-                    {props.createdAt}
+                    更新时间:&nbsp;
+                    <TimeGo date={props.updatedAt}/>
                 </span>
                 {
 					!props.menu ? null :

@@ -65,7 +65,7 @@ const webpackConfig = {
     devtool: 'source-map', // hidden-source-map
 
     entry: {
-        app: resolvePath('src/app.js'),
+        app: resolvePath('src/app.tsx'),
     },
     output: {
         path: resolvePath('dist/'),
@@ -113,7 +113,9 @@ const webpackConfig = {
     },
     resolve: {
         extensions: [
-            '.js',
+            '.tsx',
+            '.ts',
+            '.js'
         ],
         alias: {
             '@': resolvePath('src')

@@ -7,6 +7,8 @@ import store from '@/redux';
 import Main from '@/pages/main';
 import './assets/style/app.less';
 
+// TODO: 优化moment语言包
+
 message.config({
   maxCount: 3
 });

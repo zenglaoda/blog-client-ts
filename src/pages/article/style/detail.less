@@ -1,36 +1,33 @@
 @import '~@/assets/style/var/index.less';
 
 @{w-prefix} {
-    @{p-prefix}-articleDetail {
-        &-page {
-            height: 100%;
-            padding: 24px;
-            overflow-x: hidden;
-            overflow-y: auto;
-            background-color: #f5f5f5 !important;
+    @{p-prefix}-articleDetail-page {
+        height: 100%;
+        padding: 24px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: #f5f5f5 !important;
+        @{p-prefix} {
+            &-main {
+                margin-top: 24px;
+                padding: 15px 20px;
+                background-color: #fff;
+            }
+            &-article {
+                margin: 0 auto;
+            }
+            &-title {
+                text-align: center;
+            }
+            &-description {
+                text-indent: 32px;
+                word-break: break-all;
+                word-wrap: break-word;
+                word-break: break-word;
+            }
+            &-content {
+                margin-top: 15px;
+            }
         }
-        &-main {
-            margin-top: 24px;
-            padding: 20px;
-            background-color: #fff;
-        }
-        &-article {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        &-article__title {
-            text-align: center;
-        }
-        &-article__description {
-            padding-bottom: 15px;
-            text-indent: 32px;
-            word-break: break-all;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-        &-article__content {
-
-        }
-
     }
 }

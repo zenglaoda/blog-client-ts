@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Dropdown  } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import TimeGo from '@/components/time-go';
 import './style/index.less';
 
 const { Paragraph } = Typography;
@@ -45,12 +46,8 @@ export default function NoteItem(props: Props) {
             </Paragraph>
             <div className="blc-note-property">
                 <span className="blc-note-property__time">
-                    创建时间:&nbsp;
-                    {props.createdAt}
-                </span>
-                <span className="blc-note-property__time">
                     更改时间:&nbsp;
-                    {props.updatedAt}
+                    <TimeGo date={props.updatedAt}/>
                 </span>
                 {
 					showType ?

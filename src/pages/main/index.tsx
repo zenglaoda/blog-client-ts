@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import { Route, Link, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import { TagsOutlined, FileTextOutlined, FileSearchOutlined, LinkOutlined, AppstoreOutlined, CloudOutlined } from '@ant-design/icons';
+import { TagsOutlined, FileTextOutlined, FileSearchOutlined, LinkOutlined, ToolOutlined, FireOutlined, FlagOutlined } from '@ant-design/icons';
 import { SelectInfo } from 'rc-menu/lib/interface';
 
 // 页面加载过渡组件
@@ -12,6 +12,8 @@ import './style/index.less';
 
 // 异步加载页面
 const goodProjectPage = lazy(() => import('@/pages/good-project'));
+const CareerPlanPage = lazy(() => import('@/pages/career-plan'));
+const ToolSitePage = lazy(() => import('@/pages/tool-site'));
 const TagPage = lazy(() => import('@/pages/tag'));
 const TagCreatePage = lazy(() => import('@/pages/tag/create'));
 const TagEditPage = lazy(() => import('@/pages/tag/edit'));
@@ -70,12 +72,6 @@ class Main extends React.Component<RouteComponentProps, State> {
                             defaultOpenKeys={['/article']}
                             selectedKeys={selectedKeys}
                             style={{ height: '100%', borderRight: 0 }}>
-                            <Menu.Item key="/site" icon={<AppstoreOutlined />}>
-                                <Link to="/site">常用站点</Link>
-                            </Menu.Item>
-                            <Menu.Item key="/goodproject" icon={<CloudOutlined />}>
-                                <Link to="/goodproject">优质项目</Link>
-                            </Menu.Item>
                             <Menu.Item key="/note" icon={<FileSearchOutlined />}>
                                 <Link to="/note">笔记</Link>
                             </Menu.Item>
@@ -88,6 +84,15 @@ class Main extends React.Component<RouteComponentProps, State> {
                             <Menu.Item key="/tag" icon={<TagsOutlined />}>
                                 <Link to="/tag">标签</Link>
                             </Menu.Item>
+                            <Menu.Item key="/goodproject" icon={<FireOutlined />}>
+                                <Link to="/goodproject">优质项目</Link>
+                            </Menu.Item>
+                            <Menu.Item key="/toolsite" icon={<ToolOutlined />}>
+                                <Link to="/toolsite">工具站点</Link>
+                            </Menu.Item>
+                            <Menu.Item key="/careerplan" icon={<FlagOutlined />}>
+                                <Link to="/careerplan">职业规划</Link>
+                            </Menu.Item>
                         </Menu>
                     </Sider>
                 
@@ -95,7 +100,6 @@ class Main extends React.Component<RouteComponentProps, State> {
                         <Content className="bll-content">
                             <Suspense fallback={<PageLoad/>}>
                                 <Switch>
-                                    <Route path="/recproject" component={goodProjectPage} exact/>
                                     <Route path="/tag" component={TagPage} exact/>
                                     <Route path="/tag/create" component={TagCreatePage} exact/>
                                     <Route path="/tag/edit" component={TagEditPage} exact/>
@@ -106,6 +110,9 @@ class Main extends React.Component<RouteComponentProps, State> {
                                     <Route path="/article/create" component={ArticleCreatePage} exact/>
                                     <Route path="/article/edit" component={ArticleCreatePage} exact/>
                                     <Route path="/article/detail" component={ArticleDetailPage} exact/>
+                                    <Route path="/goodproject" component={goodProjectPage} exact/>
+                                    <Route path="/careerplan" component={CareerPlanPage} exact/>
+                                    <Route path="/toolsite" component={ToolSitePage} exact/>
                                     {/* <Route path="/demo" component={DemoPage} exact/> */}
                                     <Route exec component={goodProjectPage}/>
                                 </Switch>
