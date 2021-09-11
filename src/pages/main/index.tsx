@@ -12,7 +12,7 @@ import './style/index.less';
 
 // 异步加载页面
 const goodProjectPage = lazy(() => import('@/pages/good-project'));
-const CareerPlanPage = lazy(() => import('@/pages/career-plan'));
+const StageTargetPage = lazy(() => import('@/pages/stage-target'));
 const ToolSitePage = lazy(() => import('@/pages/tool-site'));
 const TagPage = lazy(() => import('@/pages/tag'));
 const TagCreatePage = lazy(() => import('@/pages/tag/create'));
@@ -90,8 +90,8 @@ class Main extends React.Component<RouteComponentProps, State> {
                             <Menu.Item key="/toolsite" icon={<ToolOutlined />}>
                                 <Link to="/toolsite">工具站点</Link>
                             </Menu.Item>
-                            <Menu.Item key="/careerplan" icon={<FlagOutlined />}>
-                                <Link to="/careerplan">职业规划</Link>
+                            <Menu.Item key="/stagetarget" icon={<FlagOutlined />}>
+                                <Link to="/stagetarget">阶段目标</Link>
                             </Menu.Item>
                         </Menu>
                     </Sider>
@@ -111,7 +111,7 @@ class Main extends React.Component<RouteComponentProps, State> {
                                     <Route path="/article/edit" component={ArticleCreatePage} exact/>
                                     <Route path="/article/detail" component={ArticleDetailPage} exact/>
                                     <Route path="/goodproject" component={goodProjectPage} exact/>
-                                    <Route path="/careerplan" component={CareerPlanPage} exact/>
+                                    <Route path="/stagetarget" component={StageTargetPage} exact/>
                                     <Route path="/toolsite" component={ToolSitePage} exact/>
                                     {/* <Route path="/demo" component={DemoPage} exact/> */}
                                     <Route exec component={goodProjectPage}/>
