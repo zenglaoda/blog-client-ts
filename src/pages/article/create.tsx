@@ -26,6 +26,9 @@ type FormData = {
     tagId?: string
 };
 
+const EDITOR_HEIGHT = '600px';
+const EDITOR_WIDTH = '100%';
+
 const rules: Rules = {
     title: [
         { required: true },
@@ -148,8 +151,8 @@ export default function CreateArticlePage(props: RouteComponentProps) {
     // 初始化编辑器
     useEffect(() => {
         window.editormd('blp-editor', {
-            width  : '100%',
-            height : '600px',
+            width  : EDITOR_WIDTH,
+            height : EDITOR_HEIGHT,
             path   : '/editormd/lib/',
             // theme : "dark",
             // previewTheme : "dark",
@@ -161,7 +164,11 @@ export default function CreateArticlePage(props: RouteComponentProps) {
             onload() {
                 setEditor(this);
                 this.resize();
-            }
+            },
+            onfullscreenExit() {
+                // 修复尺寸丢失的问题
+                this.resize(EDITOR_WIDTH, EDITOR_HEIGHT);
+            },
         });
     }, []);
 
@@ -240,7 +247,7 @@ export default function CreateArticlePage(props: RouteComponentProps) {
                             <Input allowClear maxLength={60} placeholder='请输入标题' autoComplete='off'/>
                         </Form.Item>
                         <Form.Item name="tagId" label="标签" rules={rules.tagId}>
-                            <BlogTreeSelect treeData={tagTree} multiple={false}/>
+                            <BlogTreeSelect treeData={tagTree} multiple={false} style={{width: '100%'}}/>
                         </Form.Item>
                         <Form.Item name="status" label="状态" rules={rules.status}>
                             <Radio.Group>
