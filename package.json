@@ -2,15 +2,12 @@
   "name": "blog-client-ts",
   "version": "0.0.1",
   "description": "",
-  "primate": true,
+  "private": true,
   "main": "app.js",
   "scripts": {
-    "eslint:init": "./node_modules/.bin/eslint --init",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "demo": "set NODE_ENV=development&& node ./demo/bind.js",
-    "dev": "set NODE_ENV=development&& webpack-dev-server --progress --config ./build/dev.js",
-    "build:dev": "set NODE_ENV=development&& webpack --config ./build/dev.js",
-    "build": "set NODE_ENV=production&& webpack --config ./build/prod.js"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --config ./build/dev.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./build/dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./build/prod.js"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +32,7 @@
     "babel-plugin-transform-react-jsx-source": "^6.22.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^3.2.0",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
