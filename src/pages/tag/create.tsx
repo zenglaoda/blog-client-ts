@@ -54,7 +54,6 @@ class CreateTag extends React.Component<RouteComponentProps, State> {
             .then(() => {
                 this.props.history.push('/tag');
             })
-            .catch(() => {});
     }
 
     // 获取标签列表
@@ -73,7 +72,6 @@ class CreateTag extends React.Component<RouteComponentProps, State> {
             .finally(() => {
                 this.setLoading('summer');
             })
-            .catch(() => {});
     }
 
     onFinish = (form: FormData) => {
@@ -92,7 +90,7 @@ class CreateTag extends React.Component<RouteComponentProps, State> {
     render() {
         const { list, loading, level } = this.state;
         const initialValues = {
-            pid: level === 2 ? '' : 0,
+            pid: level === 2 ? null : 0,
             name: '',
             description: '',
         };
@@ -119,7 +117,7 @@ class CreateTag extends React.Component<RouteComponentProps, State> {
                         </Form.Item>
                         <Form.Item {...tailLayout}>
                             <Button type='primary' loading={loading.create} htmlType="submit">
-                                Submit
+                                提交
                             </Button>
                         </Form.Item>
                     </Form>

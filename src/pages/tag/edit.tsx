@@ -31,7 +31,7 @@ function EditTag(props: RouteComponentProps) {
 
     const onFinish = (formData: FormData) => {
         formData.id = query.id;
-        formData.pid = formData.pid || 0;
+        formData.pid = formData.pid;
         updateTag(formData)
             .then(() => {
                 history.push('/tag');
@@ -39,41 +39,41 @@ function EditTag(props: RouteComponentProps) {
             .catch(() => {});
     };
 
+    // 获取一节标签列表
     useEffect(() => {
         getTagList()
             .then((list) => {
                 setTagList(list.filter((ele: Tag) => !ele.pid));
             })
-            .catch(() => {});
     }, []);
 
+    // 获取标签详情
     useEffect(() => {
         getTagItem({ id: query.id })
             .then((item) => {
                 setTagItem(item);
                 form.setFieldsValue({
-                    pid: item.pid || '',
+                    pid: item.pid,
                     name: item.name,
                     description: item.description,
                 });
             })
-            .catch(() => {});
     }, [query.id]);
-
-    let list = [...tagList];
-    if (tagItem) {
-        list = tagList.filter((tag: Tag) => tag.id !== tagItem.id);
-    } 
 
     return (
         <div className="blp-tagEdit-page">
             <Spin spinning={summerLoading}>
                 <Form {...layout} form={form} onFinish={onFinish} className="blp-form">
-                    <Form.Item name="pid" label="一级标签">
-                        <Select placeholder="请选择一级标签" allowClear>
-                            {list.map(tag => (<Select.Option value={tag.id} key={tag.id}>{tag.name}</Select.Option>))}
-                        </Select>
-                    </Form.Item>
+                    {
+                        (tagItem && tagItem.pid) ?
+                        <Form.Item name="pid" label="一级标签" rules={rules.pid}>
+                            <Select placeholder="请选择一级标签" allowClear>
+                                {tagList.map(tag => (<Select.Option value={tag.id} key={tag.id}>{tag.name}</Select.Option>))}
+                            </Select>
+                        </Form.Item>
+                        :
+                        null
+                    }
                     <Form.Item name='name' label='标签名' rules={rules.name}>
                         <Input allowClear maxLength={30} placeholder='请输入标签名' autoComplete='off'/>
                     </Form.Item>
@@ -82,7 +82,7 @@ function EditTag(props: RouteComponentProps) {
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Button type='primary' loading={updateTag.loading} htmlType="submit">
-                            Submit
+                            提交
                         </Button>
                     </Form.Item>
                 </Form>

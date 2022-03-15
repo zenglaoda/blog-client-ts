@@ -81,8 +81,7 @@ function ArticlePage() {
                 return destroyArticle({ id: item.id })
                     .then(() => {
                         getList();
-                    })
-                    .catch(() => {});
+                    });
             },
             onCancel() {
                 destroyArticle.cancel();
@@ -108,12 +107,11 @@ function ArticlePage() {
             .then((tags: Tag[]) => {
                 setTagTree(setTagTreeSelectable(tags));
             })
-            .catch(() => {});
     }, []);
 
     const getMenu = (item: Article) => (
         <Menu>
-            <Menu.Item>
+            <Menu.Item key={1}>
                 <Link
                     to={{
                         pathname: '/article/edit',
@@ -121,14 +119,14 @@ function ArticlePage() {
                     }}
                 >编辑</Link>                
             </Menu.Item>
-            <Menu.Item danger disabled={destroyArticle.loading} onClick={() => onDeleteNoteItem(item)}>
+            <Menu.Item key={2} danger onClick={() => onDeleteNoteItem(item)}>
                 删除
             </Menu.Item>
         </Menu>
     );
 
     return (
-        <section className="blp-article-page">
+        <div className="blp-article-page">
             <section className="blp-article-header">
                 <Form onFinish={onSearch} form={form} initialValues={initialValues} layout="inline" className="blg-ant-form-inline">
                     <Form.Item label="关键字" name="keyword">
@@ -153,12 +151,12 @@ function ArticlePage() {
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={getArticleList.loading} icon={<SearchOutlined/>}>
-                            Submit
+                            查询
                         </Button>
                     </Form.Item>
                     <Form.Item>
                         <Button onClick={onReset} loading={getArticleList.loading} icon={<RollbackOutlined/>}>
-                            Reset
+                            重置
                         </Button>
                     </Form.Item>
                 </Form>
@@ -182,7 +180,7 @@ function ArticlePage() {
                     onChanges={getList}
                 />
             </section>
-        </section>
+        </div>
     );
 }
 

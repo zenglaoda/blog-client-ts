@@ -36,9 +36,7 @@ export function getLinkItemAPI() {
     });
 }
 
-/** 
- * @deprecated 将要被遗弃
-*/
+
 export default createAPI({
     baseURL: '',
     prefix: '/api/link',

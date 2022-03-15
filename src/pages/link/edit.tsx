@@ -44,8 +44,7 @@ function EditLink(props: RouteComponentProps) {
     useEffect(() => {
         getTagList()
             .then((tags: Tag[]) => {
-                const tagTree: TagTreeNode[] = setTagTreeLeafSelectable(tags);
-                setTagTree(tagTree);
+                setTagTree(setTagTreeLeafSelectable(tags));
             })
             .catch(() => {});
     }, []);
@@ -56,9 +55,9 @@ function EditLink(props: RouteComponentProps) {
                 form.setFieldsValue({
                     title: item.title,
                     url: item.url,
+                    tagId: item.tagId,
                     description: item.description,
                     keyword: item.keyword,
-                    tagId: item.tag.id
                 });
             })
             .catch(() => {});
@@ -75,7 +74,7 @@ function EditLink(props: RouteComponentProps) {
                         <Input allowClear maxLength={100} placeholder='请输入链接地址' autoComplete='off'/>
                     </Form.Item>
                     <Form.Item name="tagId" label="标签" rules={rules.tagId}>
-                        <BlogTreeSelect treeData={tagTree} multiple={false}/>
+                        <BlogTreeSelect treeData={tagTree} multiple={false} style={{width: '100%'}}/>
                     </Form.Item>
                     <Form.Item name='keyword' label='关键字' rules={rules.keyword}>
                         <Input.TextArea rows={4} allowClear maxLength={200} placeholder='请输入关键字'/>
@@ -84,8 +83,8 @@ function EditLink(props: RouteComponentProps) {
                         <Input.TextArea rows={4} allowClear maxLength={200} placeholder='请输入描述'/>
                     </Form.Item>
                     <Form.Item {...tailLayout}>
-                        <Button type='primary' htmlType="submit" loading={updateLink.loading}>
-                            Submit
+                        <Button type='primary' htmlType="submit" loading={updateLink.loading} disabled={getTagList.loading || getLinkItem.loading}>
+                            提交
                         </Button>
                     </Form.Item>
                 </Form>

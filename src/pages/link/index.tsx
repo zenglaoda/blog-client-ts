@@ -86,13 +86,23 @@ function LinkPage() {
                     .then(() => {
                         getList();
                     })
-                    .catch(() => {});
             },
             onCancel() {
                 destroyLink.cancel();
             },
         });
     };
+
+    const getMenu = (item: TLink) => (
+        <Menu>
+            <Menu.Item key={1}>
+                <Link to={`/link/edit?id=${item.id}`}>编辑</Link>                
+            </Menu.Item>
+            <Menu.Item key={2} danger onClick={() => onDeleteNoteItem(item)}>
+                删除
+            </Menu.Item>
+        </Menu>
+    );
 
     useEffect(() => {
         getList();
@@ -103,19 +113,8 @@ function LinkPage() {
             .catch(() => {});
     }, []);
 
-    const getMenu = (item: TLink) => (
-        <Menu>
-            <Menu.Item>
-                <Link to={`/link/edit?id=${item.id}`}>编辑</Link>                
-            </Menu.Item>
-            <Menu.Item danger onClick={() => onDeleteNoteItem(item)}>
-                删除
-            </Menu.Item>
-        </Menu>
-    );
-
     return (
-        <section className="blp-link-page">
+        <div className="blp-link-page">
             <section className="blp-link-header">
                 <Form onFinish={onFinish} form={form} initialValues={initialValues} layout="inline" className="blg-ant-form-inline">
                     <Form.Item label="关键字" name="keyword">
@@ -132,13 +131,13 @@ function LinkPage() {
                         <RangePicker />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" loading={getLinkList.loading} icon={<SearchOutlined/>}>
-                            Submit
+                        <Button type="primary" htmlType="submit" disabled={getLinkList.loading} icon={<SearchOutlined/>}>
+                            查询
                         </Button>
                     </Form.Item>
                     <Form.Item>
-                        <Button onClick={onResetForm} loading={getLinkList.loading} icon={<RollbackOutlined/>}>
-                            Reset
+                        <Button onClick={onResetForm} disabled={getLinkList.loading} icon={<RollbackOutlined/>}>
+                            重置
                         </Button>
                     </Form.Item>
                 </Form>
@@ -150,7 +149,7 @@ function LinkPage() {
             </section>
             <section className="blp-link-main">
                 <Spin spinning={getLinkList.loading} style={{minHeight: 100}}>
-                    {linkList.map(item => <NoteItem key={String(item.id)} {...item}  menu={getMenu(item)} />)}
+                    {linkList.map(item => <NoteItem key={item.id} {...item}  menu={getMenu(item)} />)}
                 </Spin>
             </section>
             <section className="blp-link-footer">
@@ -160,7 +159,7 @@ function LinkPage() {
                     onChanges={getList}
                 />
             </section>
-        </section>
+        </div>
     );
 }
 

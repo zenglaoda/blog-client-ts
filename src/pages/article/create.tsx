@@ -19,11 +19,11 @@ import './style/create.less';
 type FormData = {
     id?: number,
     title: string,
+    tagId?: string,
     status: string,
+    keyword?: string,
     description: string,
-    keyword?: string
     content?: string,
-    tagId?: string
 };
 
 const EDITOR_HEIGHT = '600px';
@@ -47,7 +47,8 @@ const rules: Rules = {
         { whitespace: true }
     ],
     keyword: [
-        { type: 'string', max: 300, required: true,whitespace: true },
+        { required: true,},
+        { type: 'string', max: 300,whitespace: true },
     ],
     tagId: [
         { required: true, type: 'integer' },
@@ -56,10 +57,10 @@ const rules: Rules = {
 
 const initialValues = {
     title: '',
+    tagId: null,
     status: ARTICLE_STATUS.draft.value,
-    description: '',
     keyword: '',
-    tagId: ''
+    description: '',
 };
 
 
@@ -68,9 +69,9 @@ export default function CreateArticlePage(props: RouteComponentProps) {
     const [isFirstStep, setFirstStep] = useState<boolean>(!query.id);
     const [articleItem, setArticleItem] = useState<Article | null>(null);
     const [tagTree, setTagTree] = useState<TagTreeNode[]>([]);
-    const [form] = Form.useForm();
-    const [editor, setEditor] = useState();
+    const [editor, setEditor] = useState<any>();
     const contentChangedRef = useRef(false);
+    const [form] = Form.useForm();
     const getTagList = useRequest(getTagListAPI);
     const getArticle = useRequest(getArticleAPI);
     const createArticle = useRequest(createArticleAPI, { unmountAbort: false });
@@ -84,7 +85,6 @@ export default function CreateArticlePage(props: RouteComponentProps) {
                 setArticleItem(res);
                 contentChangedRef.current = false;
             })
-            .catch(() => {})
     };
 
     const addArticle = (params: FormData) => {
@@ -93,7 +93,6 @@ export default function CreateArticlePage(props: RouteComponentProps) {
                 setArticleItem(res);
                 contentChangedRef.current = false;
             })
-            .catch(() => {});
     };
 
     const onSubmit = () => {
@@ -174,21 +173,18 @@ export default function CreateArticlePage(props: RouteComponentProps) {
 
     // 重置编辑器尺寸
     useEffect(() => {
-        if (!editor || isFirstStep) {
-            return
-        }
+        if (!editor || isFirstStep) return;
         editor.resize();
     }, [isFirstStep, editor]);
 
     // 设置编辑器内容
     useEffect(() => {
-        if (!editor) {
-            return;
-        }
-        const content = articleItem ? articleItem.content : '';
-        editor.setMarkdown(content || '');
-    }, [editor, articleItem && articleItem.content]);
+        if (!editor) return
 
+        const content = articleItem && articleItem.content || '';
+        editor.setMarkdown(content);
+    }, [editor, articleItem && articleItem.content]);
+    
     // 获取详情
     useEffect(() => {
         if (query.id) {
@@ -197,16 +193,17 @@ export default function CreateArticlePage(props: RouteComponentProps) {
                     setArticleItem(item);
                     form.setFieldsValue({
                         title: item.title,
+                        tagId: item.tagId,
                         status: item.status,
                         description: item.description,
                         keyword: item.keyword,
-                        tagId: item.tagId
                     });
                 })
-        } else {
-            setArticleItem(null);
-            form.setFieldsValue({...initialValues});
+            return;
         }
+
+        setArticleItem(null);
+        form.setFieldsValue({...initialValues});
     }, [query.id])
 
     // 获取tagList
@@ -215,30 +212,29 @@ export default function CreateArticlePage(props: RouteComponentProps) {
             .then((tags: Tag[]) => {
                 setTagTree(setTagTreeLeafSelectable(tags));
             })
-            .catch(() => {});
     }, []);
 
     return (
         <div className="blp-articleCreate-page">
             <section className="blp-header">
-                    <div>
-                        <Radio.Group value={isFirstStep} onChange={(event) => setFirstStep(event.target.value)}>
-                            <Radio.Button value={true}>基础信息</Radio.Button>
-                            <Radio.Button value={false}>文章内容</Radio.Button>
-                        </Radio.Group>
-                    </div>
-                    <div>
-                        <Button 
-                            type="primary" 
-                            icon={<SaveOutlined />} 
-                            loading={saveLoading} 
-                            disabled={!editor}
-                            onClick={() => onSubmit()}
-                        >
-                            {saveLoading ? '保存中...' : '保存'}
-                        </Button>
-                    </div>
-                </section>
+                <div>
+                    <Radio.Group value={isFirstStep} onChange={(event) => setFirstStep(event.target.value)}>
+                        <Radio.Button value={true}>基础信息</Radio.Button>
+                        <Radio.Button value={false}>文章内容</Radio.Button>
+                    </Radio.Group>
+                </div>
+                <div>
+                    <Button 
+                        type="primary" 
+                        icon={<SaveOutlined />} 
+                        loading={saveLoading} 
+                        disabled={!editor}
+                        onClick={() => onSubmit()}
+                    >
+                        {saveLoading ? '保存中...' : '保存'}
+                    </Button>
+                </div>
+            </section>
 
             <Spin spinning={summerLoading}>
                 <section className="blp-form" style={{display: isFirstStep ? 'block' : 'none' }}>

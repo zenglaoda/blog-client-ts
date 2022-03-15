@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom'; 
 import { Form, Button, Spin, Menu, Dropdown, Modal } from 'antd';
 import { SearchOutlined, RollbackOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import useRequest from '@/lib/hooks/useRequest';
 import { destroyTagAPI, getTagListAPI } from '@/api/tag';
+import { getArticleListAPI } from '@/api/article';
+import { getLinkListAPI } from '@/api/link';
 import { setTagTreeSelectable } from '@/common/utils';
+import { TagTreeNode } from '@/pages/tag/types';
 import BlogTreeSelect from '@/components/tree-select';
 import TagItem from './components/tagItem';
 import { Tag } from './types';
@@ -15,48 +18,62 @@ type FormData = {
     tagIds: number[]
 };
 
-interface TagNode extends Tag {
-    parentTag: TagNode | null
-    children?: TagNode[]
+interface TagNode extends TagTreeNode {
+    children?: TagNode[],
+    links: number,
+    articles: number,
+    parentTag: TagNode
 }
 
 type TagMap = {
     [prop: string]: TagNode
 };
 
+type CountMap  = ({
+    link: {
+        [index:string]: number
+    },
+    article: {
+        [index:string]: number
+    }
+} | null);
+
 
 
 export default function TagPage() {
     const [tagTree, setTagTree] = useState<TagNode[]>([]);
     const [tagList, setTagList] = useState<TagNode[]>([]);
+    const [countMap, setCountMap] = useState<CountMap>(null);
     const [form] = Form.useForm();
-    const destroyTag = useRequest(destroyTagAPI);
+    const destroyTag = useRequest(destroyTagAPI, { unmountAbort: false });
     const getTagList = useRequest(getTagListAPI);
+    const getLinkList = useRequest(getLinkListAPI);
+    const getArticleList = useRequest(getArticleListAPI);
 
     const initialValues = {
         tagIds: [],
     };
 
     const getList = (formData: FormData) => {
-        const tagMaps = {};
-        const tags = [];
+        const tagMaps: TagMap = {};
+        const tags:any = [];
         tagTree.forEach(tag => {
             tagMaps[tag.id] = tag;
             tags.push(tag);
-            tag.children.forEach((child) => {
+            tag.children!.forEach((child) => {
                 tagMaps[child.id] = child;
                 tags.push(child);
             });
         }); 
-        if (!formData || !formData.tagIds.length) {
+        if (!formData.tagIds.length) {
             setTagList(tags);
             return;
         }
-        const maps = {};
-        formData.tagIds.forEach((id) => {
-            maps[id] = tagMaps[id];
-            if (!maps[id].pid) {
-                maps[id].children.forEach((child) => {
+        const maps: TagMap = {};
+        formData.tagIds.forEach((tagId) => {
+            maps[tagId] = tagMaps[tagId];
+            if (!maps[tagId].pid) {
+                maps[tagId]!.children!.forEach((child) => {
                     maps[child.id] = child;
                 });
             }
@@ -70,20 +87,25 @@ export default function TagPage() {
 
     const onResetForm = () => {
         form.resetFields();
-        getList();
+        getList(initialValues);
     };
 
-    const onDeleteNoteItem = (item: TagNode) => {
+    const onDeleteItem = (item: TagNode) => {
         Modal.confirm({
             title: `确定删除标签 "${item.name}" ?`,
             icon: <ExclamationCircleOutlined />,
             onOk() {
                 return destroyTag({ id: item.id })
                     .then(() => {
-                        if (item.parentTag) {
-                            item.parentTag.children = item.parentTag.children.filter(ele => ele!== item);
+                        let tree:TagNode[] = [];
+                        if (item.pid) {
+                            const parentTag = tagTree.find(tag => tag.id === item.pid);
+                            parentTag!.children = parentTag!.children!.filter(tag => tag.id !== item.id);
+                            tree = tagTree;
+                        } else {
+                            tree = tagTree.filter(tag => tag.id !== item.id);
                         }
-                        setTagList(tagList.filter(ele => ele !== item));
+                        setTagTree([...tree]);
                     })
                     .catch(() => {})
             },
@@ -93,100 +115,121 @@ export default function TagPage() {
           });
     };
 
-    useEffect(() => {
-        const callback = async () => {
-            const tags: Tag[]  = await getTagList();
-            const tagTree: TagNode[] = setTagTreeSelectable(tags);
-            const tagList: TagNode[] = [];
-            
-            const articleMap = {};
-            const linkMap = {};
-            const getMapCount = (map, tagId) => (map[tagId] && map[tagId].length) || 0;
-
-            tagTree.forEach(tag => {
-                const articleSet = new Set();
-                const linkSet = new Set();
-                tag.parentTag = null;
-                tagList.push(tag);
-                tag.children = tag.children || [];
-                tag.children.forEach((child) => {
-                    const tagId = child.id;
-                    child.parentTag = tag;
-                    articleMap[tagId] = articleMap[tagId] || [];
-                    linkMap[tagId] = linkMap[tagId] || [];
-                    child.articles = getMapCount(articleMap, child.id);
-                    child.links = getMapCount(linkMap, child.id);
-                    child.childs = 0;
-                    child.parentTag = tag;
-                    tagList.push(child); 
-                    articleMap[tagId].forEach(item => articleSet.add(item.noteId))
-                    linkMap[tagId].forEach(item => linkSet .add(item.noteId))
-                });
-                tag.articles = articleSet.size;
-                tag.links = linkSet.size;
-                tag.childs = tag.children.length;
-                tag.parentTag = null;
-            });
-            setTagList(tagList);
-        }
-        callback().catch(() => {});
-    }, []);
-
-    const createMenu = () => (
+    const getCreateMenu = useMemo(() => (
         <Menu>
-            <Menu.Item>
+            <Menu.Item key="1">
                 <Link to={`/tag/create?level=1`}>一级标签</Link>                
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item key="2">
                 <Link to={`/tag/create?level=2`}>二级标签</Link>                
             </Menu.Item>
         </Menu>
-    );
+    ), []);
 
-    const getMenu = (item: TagNode) => (
+    const getTagItemMenu = (item: TagNode) => (
         <Menu>
-            <Menu.Item>
+            <Menu.Item key={1}>
                 <Link to={`/tag/edit?id=${item.id}`}>编辑</Link>                
             </Menu.Item>
-            <Menu.Item danger onClick={() => onDeleteNoteItem(item)}>
+            <Menu.Item key={2} danger onClick={() => onDeleteItem(item)}>
                 删除
             </Menu.Item>
         </Menu>
     );
+
+    const updateTag = (tree: TagNode[], countMap: CountMap) => {
+        const linkCount = (countMap && countMap.link) || {};
+        const articleCount = (countMap && countMap.article) || {};
+        const tagList: TagNode[] = [];
+
+        tree.forEach(node => {
+            node.children = node.children || [];
+            node.children.forEach(child => {
+                child.links = linkCount[child.id] || 0;
+                child.articles = articleCount[child.id] || 0;
+                child.parentTag = node;
+            });
+            node.links = node.children.reduce((t, n) => t + n.links, 0);
+            node.articles = node.children.reduce((t, n) => t + n.articles, 0);
+
+            tagList.push(node, ...node.children);
+        });
+
+        setTagList(tagList);
+    }
+
+    // 获取 tagList
+    useEffect(() => {
+        getTagList().then((tags: Tag[]) => {
+            setTagTree(setTagTreeSelectable(tags) as any);
+        });
+    }, []);
+
+    // 更新文章，链接数量
+    useEffect(() => {
+        const params = {
+            page: 1,
+            pageSize: 100
+        };
+        Promise.all([
+            getLinkList(params),
+            getArticleList(params)
+        ])
+            .then(([linkRes, articleRes]) => {
+                const getCount = (list: []) => {
+                    type Map = {[index: string]: number};
+                    type Item = {tagId: number};
+                    const map: Map = {};
+                    list.forEach((item: Item) => {
+                        const tagId = item.tagId;
+                        map[tagId] = (map[tagId] || 0) + 1;
+                    });
+                    return map;
+                }
+                setCountMap({
+                    link: getCount(linkRes.rows || []),
+                    article: getCount(articleRes.rows || [])
+                });
+            })
+    }, []);
+
+    useEffect(() => {
+        updateTag(tagTree, countMap);
+    }, [tagTree, countMap]);
     
     return (
-        <section className="blp-tag-page">
+        <div className="blp-tag-page">
             <section className="blp-tag-header">
                 <Form onFinish={onFinish} form={form} initialValues={initialValues} layout="inline" className="blg-ant-form-inline">
                     <Form.Item name="tagIds" label="标签">
                         <BlogTreeSelect 
                             treeData={tagTree}
-                            treeCheckable 
+                            treeCheckable
                             multiple 
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" loading={getTagList.loading} icon={<SearchOutlined/>}>
-                        Submit
+                        <Button type="primary" htmlType="submit" disabled={getTagList.loading} icon={<SearchOutlined/>}>
+                            查询
                         </Button>
                     </Form.Item>
                     <Form.Item>
-                        <Button onClick={onResetForm} loading={getTagList.loading} icon={<RollbackOutlined/>}>
-                            Reset
+                        <Button onClick={onResetForm} disabled={getTagList.loading} icon={<RollbackOutlined/>}>
+                            重置
                         </Button>
                     </Form.Item>
                 </Form>
             </section>
             <section className="blg-action">
-                <Dropdown overlay={createMenu()}>
+                <Dropdown overlay={getCreateMenu}>
                     <Button icon={<PlusOutlined />}>新增标签</Button>
                 </Dropdown>
             </section>
             <Spin spinning={getTagList.loading} style={{minHeight: 300}}>
                 <section className="blp-tag-main">
-                    {tagList.map(ele => <TagItem {...ele} menu={getMenu(ele)}/>)}
+                    {tagList.map(ele => <TagItem {...ele} menu={getTagItemMenu(ele)}/>)}
                 </section>
             </Spin>
-        </section>
+        </div>
     );
 }

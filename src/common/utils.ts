@@ -1,13 +1,12 @@
 import { TagTreeNode, Tag } from '@/pages/tag/types';
 
-
 /**
- * @description 标签树过滤方法
+ * @description 根据 titile 从标签树中筛选标签
  * @param {string} keyword
- * @param {object} treeNode { title: string }
+ * @param {TagTreeNode} treeNode
  * @returns {boolean}
  */
-export function tagTreeFilter(keyword:string, treeNode: TagTreeNode) {
+export function tagTreeFilter(keyword: string, treeNode: TagTreeNode) {
     const title = treeNode.title.toLowerCase();
     keyword = keyword.trim().toLowerCase();
     return title.includes(keyword);
@@ -15,25 +14,22 @@ export function tagTreeFilter(keyword:string, treeNode: TagTreeNode) {
 
 /**
  * @description 组织标签树并设置节点是否可选
- * @param {array} tree
+ * @param {array} tags
  * @returns 
  */
-function setTagTreeNodeSelectable(tree: Tag[], onlyLeaf = false): TagTreeNode[] {
+function setTagTreeNodeSelectable(tags: Tag[], onlyLeaf = false): TagTreeNode[] {
     type ChildMap = {
         [index: string]: TagTreeNode[]
     };
-    type ParentMap = {
-        [index: string]: TagTreeNode
-    };
-
     const childMap: ChildMap = {};
-    const parentMap: ParentMap = {};
+    const tree: TagTreeNode[] = [];
 
-    tree.forEach((item) => {
-        const ele = { ...item } as TagTreeNode;
+    tags.forEach((tag) => {
+        const ele = { ...tag } as TagTreeNode;
         ele.title = ele.name;
         ele.value = ele.id;
         ele.key = ele.id;
+
         if (ele.pid) {
             ele.selectable = true; 
             childMap[ele.pid] = childMap[ele.pid] || [];
@@ -41,33 +37,32 @@ function setTagTreeNodeSelectable(tree: Tag[], onlyLeaf = false): TagTreeNode[] 
         } else {
             ele.selectable = !onlyLeaf; 
             ele.children = [];
-            parentMap[ele.id] = ele;
+            tree.push(ele);
         }
     });
-    const tags: TagTreeNode[] = [];
-    Object.keys(parentMap).forEach(id => {
-        if (childMap[id]) {
-            parentMap[id].children = childMap[id];
+
+    tree.forEach(node => {
+        if (childMap[node.id]) {
+            node.children = childMap[node.id];
         }
-        tags.push(parentMap[id]);
     });
-    return tags;    
+    return tree;    
 }
 
 /**
  * @description 组织标签树并设置任何节点可选
- * @param {array} tree
- * @returns 
+ * @param {array} tags
+ * @returns {TagTreeNode}
  */
-export function setTagTreeSelectable(tree: Tag[]) {
-    return setTagTreeNodeSelectable(tree, false);
+export function setTagTreeSelectable(tags: Tag[]) {
+    return setTagTreeNodeSelectable(tags, false);
 }
 
 /**
  * @description 组织标签树并设置仅叶子节点可选
- * @param {array} tree
- * @returns 
+ * @param {array} tags
+ * @returns {TagTreeNode}
  */
-export function setTagTreeLeafSelectable(tree: Tag[]) {
-    return setTagTreeNodeSelectable(tree, true);
+export function setTagTreeLeafSelectable(tags: Tag[]) {
+    return setTagTreeNodeSelectable(tags, true);
 }

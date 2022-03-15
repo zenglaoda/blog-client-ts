@@ -10,8 +10,8 @@ export interface Tag {
     pid: number,
     name: string,
     description: string,
-    createAt: number,
-    updateAt: number
+    createdAt: number,
+    updatedAt: number
 }
 
 export interface TagTreeNode extends Tag {
@@ -23,4 +23,11 @@ export interface TagTreeNode extends Tag {
     key: number,
     selectable: boolean,
     children?: TagTreeNode[]
+}
+
+export interface TagNode extends TagTreeNode {
+    children?: TagNode[],
+    links: number,
+    articles: number,
+    parentTag: TagNode
 }
