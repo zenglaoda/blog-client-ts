@@ -23,7 +23,6 @@ const LinkEditPage = lazy(() => import('@/pages/link/edit'));
 const ArticlePage = lazy(() => import('@/pages/article'));
 const ArticleCreatePage = lazy(() => import('@/pages/article/create'));
 const ArticleDetailPage = lazy(() => import('@/pages/article/detail'));
-// const DemoPage = lazy(() => import('@/pages/demo'));
 
 
 type State = {
@@ -113,8 +112,7 @@ class Main extends React.Component<RouteComponentProps, State> {
                                     <Route path="/goodproject" component={goodProjectPage} exact/>
                                     <Route path="/stagetarget" component={StageTargetPage} exact/>
                                     <Route path="/toolsite" component={ToolSitePage} exact/>
-                                    {/* <Route path="/demo" component={DemoPage} exact/> */}
-                                    <Route exec component={goodProjectPage}/>
+                                    <Route exact component={goodProjectPage}/>
                                 </Switch>
                             </Suspense>
                         </Content>
