@@ -10,7 +10,7 @@ const production = {
             '@babel/preset-env',
             {
                 useBuiltIns: 'usage',
-                modules: 'false',
+                modules: false,
             }
         ],
     ],

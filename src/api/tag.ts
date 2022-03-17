@@ -35,6 +35,13 @@ export function createTagAPI() {
     });  
 }
 
+export function getAssociationsAPI() {
+    return new CreateAPI({
+        url: `${prefix}/getAssociations`,
+        method: 'get',
+    })
+}
+
 
 // export default createAPI({
 //     baseURL: '',

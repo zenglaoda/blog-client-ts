@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-
+import './style/index.less';
 
 enum Status {
-    Primitive = 0, // 未开始
+    todo = 0, // 未开始
     Pending = 1, // 进行中
     Resolve = 2, // 已完成
     Reject = 3 // 未完成
@@ -31,7 +31,7 @@ const list = [
             },
             {
                 date: '30',
-                status: Status.Primitive,
+                status: Status.todo,
                 content: 'Vue 3.0 composition API 学习'
             }
         ]
@@ -40,26 +40,26 @@ const list = [
         year: '2021',
         month: '5',
         content: 'webpack4 配置回顾，优化; 迁移至webpack5, webpack 工程化, babel 配置',
-        status: Status.Primitive,
+        status: Status.todo,
         children: [
             {
                 date: '15',
-                status: Status.Primitive,
+                status: Status.todo,
                 content: 'webpack4 配置回顾，优化; vuex 3.0源码阅读'
             },
             {
                 date: '22',
-                status: Status.Primitive,
+                status: Status.todo,
                 content: '迁移至webpack5, vue 3.0 源码阅读'
             },
             {
                 date: '27',
-                status: Status.Primitive,
+                status: Status.todo,
                 content: 'babel配置, vue-router 3.0 源码阅读'
             },
             {
                 date: '31',
-                status: Status.Primitive,
+                status: Status.todo,
                 content: 'webpack 工程化初试'
             }
         ] 
@@ -86,7 +86,7 @@ list.forEach(item => {
 
 export default function StageTargetPage() {
     const statusProp = {
-        [Status.Primitive]: {
+        [Status.todo]: {
             color: 'gray'
         },
         [Status.Pending]: {
@@ -101,7 +101,7 @@ export default function StageTargetPage() {
     };
 
     return (
-        <>
+        <div className='blp-target' style={{width: 500}}>
             <Timeline mode='left'>
                 {
                     targets.map(item => (
@@ -114,6 +114,6 @@ export default function StageTargetPage() {
                     </Timeline.Item>))
                 }
             </Timeline>
-        </>
+        </div>
     );
 }

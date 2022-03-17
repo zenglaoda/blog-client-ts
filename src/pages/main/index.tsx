@@ -71,8 +71,8 @@ class Main extends React.Component<RouteComponentProps, State> {
                             defaultOpenKeys={['/article']}
                             selectedKeys={selectedKeys}
                             style={{ height: '100%', borderRight: 0 }}>
-                            <Menu.Item key="/note" icon={<FileSearchOutlined />}>
-                                <Link to="/note">笔记</Link>
+                            <Menu.Item key="/dashboard" icon={<FileSearchOutlined />}>
+                                <Link to="/dashboard">大盘</Link>
                             </Menu.Item>
                             <Menu.Item key="/article" icon={<FileTextOutlined />}>
                                 <Link to="/article">文章</Link>

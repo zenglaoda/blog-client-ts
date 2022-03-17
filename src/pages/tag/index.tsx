@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Button, Spin, Menu, Dropdown, Modal } from 'antd';
 import { SearchOutlined, RollbackOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import useRequest from '@/lib/hooks/useRequest';
-import { destroyTagAPI, getTagListAPI } from '@/api/tag';
-import { getArticleListAPI } from '@/api/article';
-import { getLinkListAPI } from '@/api/link';
+import { destroyTagAPI, getTagListAPI, getAssociationsAPI } from '@/api/tag';
 import { setTagTreeSelectable } from '@/common/utils';
 import { TagTreeNode } from '@/pages/tag/types';
 import BlogTreeSelect from '@/components/tree-select';
@@ -47,8 +45,7 @@ export default function TagPage() {
     const [form] = Form.useForm();
     const destroyTag = useRequest(destroyTagAPI, { unmountAbort: false });
     const getTagList = useRequest(getTagListAPI);
-    const getLinkList = useRequest(getLinkListAPI);
-    const getArticleList = useRequest(getArticleListAPI);
+    const getAssociations = useRequest(getAssociationsAPI);
 
     const initialValues = {
         tagIds: [],
@@ -167,29 +164,9 @@ export default function TagPage() {
 
     // 更新文章，链接数量
     useEffect(() => {
-        const params = {
-            page: 1,
-            pageSize: 100
-        };
-        Promise.all([
-            getLinkList(params),
-            getArticleList(params)
-        ])
-            .then(([linkRes, articleRes]) => {
-                const getCount = (list: []) => {
-                    type Map = {[index: string]: number};
-                    type Item = {tagId: number};
-                    const map: Map = {};
-                    list.forEach((item: Item) => {
-                        const tagId = item.tagId;
-                        map[tagId] = (map[tagId] || 0) + 1;
-                    });
-                    return map;
-                }
-                setCountMap({
-                    link: getCount(linkRes.rows || []),
-                    article: getCount(articleRes.rows || [])
-                });
+        getAssociations()
+            .then((res: CountMap) => {
+                setCountMap(res);
             })
     }, []);
 
