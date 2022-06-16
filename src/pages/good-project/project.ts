@@ -8,6 +8,14 @@ export const projects = [
       "description": "Webpack 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。"
     },
     {
+      "url": "https://vitejs.bootcss.com/",
+      "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/vitejs.png",
+      "alt": "Vite.js 是新一代的前端开发工具链",
+      "title": "Vite.js",
+      "summarize": "新一代的前端开发工具链",
+      "description": "Vite.js 是新一代的前端开发工具链，旨在提升前端开发体验。Vite.js 包含两个重要的组成部分：支持原生 JavaScript 模块的开发服务器，以及基于 Rollup 的打包工具。"
+    },
+    {
       "url": "https://reactjs.bootcss.com/",
       "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/react.png",
       "alt": "React - 用于构建用户界面的 JavaScript 框架",
@@ -72,14 +80,6 @@ export const projects = [
       "description": "NPM（node package manager）是 Node.js 世界的包管理器。NPM 可以让 JavaScript 开发者在共享代码、复用代码以及更新共享的代码上更加方便。"
     },
     {
-      "url": "https://www.recoiljs.cn/",
-      "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/recoil.png",
-      "alt": "Recoil 中文文档",
-      "title": "Recoil",
-      "summarize": "React 状态管理库",
-      "description": "Recoil 是一个针对 React 应用程序的状态管理库。 它提供了仅使用 React 难以实现的几种功能，同时与 React 的最新功能兼容。"
-    },
-    {
       "url": "https://www.reduxjs.cn/",
       "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/redux.png",
       "alt": "Redux 中文文档",
@@ -88,12 +88,28 @@ export const projects = [
       "description": "Redux 是 JavaScript 状态容器，提供可预测化的状态管理、构建一致化的应用，运行于不同的环境（客户端、服务器、原生应用），并且易于测试。"
     },
     {
+      "url": "https://www.mobxjs.com/",
+      "logo": "https://fastly.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.57/dist/img/mobx.png",
+      "alt": "MobX 中文文档",
+      "title": "MobX ",
+      "summarize": "中文文档",
+      "description": "MobX 是一个简单、可扩展的状态管理工具库"
+    },
+    {
       "url": "https://www.progit.cn/",
       "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/progit.png",
       "alt": "Pro Git 中文版（第二版）让你从 Git 初学者成为 Git 专家",
       "title": "Pro Git ",
       "summarize": "Git 入门到专家指南",
       "description": "Pro Git 中文版（第二版）是一本详细的 Git 指南，主要介绍了 Git 的使用基础和原理，让你从 Git 初学者成为 Git 专家。"
+    },
+    {
+      "url": "https://www.recoiljs.cn/",
+      "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/recoil.png",
+      "alt": "Recoil 中文文档",
+      "title": "Recoil",
+      "summarize": "React 状态管理库",
+      "description": "Recoil 是一个针对 React 应用程序的状态管理库。 它提供了仅使用 React 难以实现的几种功能，同时与 React 的最新功能兼容。"
     },
     {
       "url": "https://www.rollupjs.com/",
@@ -233,6 +249,14 @@ export const projects = [
       "description": "ESLint 是一个插件化并且可配置的 JavaScript 语法规则和代码风格的检查工具。ESLint 能够帮你轻松写出高质量的 JavaScript 代码。"
     },
     {
+      "url": "https://stylelint.bootcss.com/",
+      "logo": "https://fastly.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.57/dist/img/stylelint.png",
+      "alt": "Stylelint 是一个强大、先进的 CSS 代码检查器（linter），可以帮助你规避 CSS 代码中的错误并保持一致的编码风格。",
+      "title": "Stylelint",
+      "summarize": "CSS 代码检查器",
+      "description": "Stylelint 是一个强大、先进的 CSS 代码检查器（linter），可以帮助你规避 CSS 代码中的错误并保持一致的编码风格。"
+    },
+    {
       "url": "https://www.sasscss.com/",
       "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/sass.png",
       "alt": "Sass 是一个成熟、稳定、强大的 CSS 扩展语言解析器。",
@@ -279,14 +303,6 @@ export const projects = [
       "title": "Hugo ",
       "summarize": "中文文档",
       "description": "Hugo 是最流行的开源静态站点生成器之一。凭借其惊人的速度和灵活性，Hugo 让搭建网站再次变得有趣。"
-    },
-    {
-      "url": "https://www.gatsbyjs.cn/",
-      "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/gatsby.png",
-      "alt": "Gatsby 中文文档",
-      "title": "Gatsby ",
-      "summarize": "中文文档",
-      "description": "Gatsby 是一个基于 React 的免费、开源框架，可以帮助开发人员构建快速的网站和应用程序。"
     },
     {
       "url": "https://www.handlebarsjs.cn/",
@@ -577,6 +593,14 @@ export const projects = [
       "description": "Blitz 是基于 Next.js 构建的 React 全栈开发框架。Blitz 的诞生受到 Ruby on Rails 框架的启发。"
     },
     {
+      "url": "https://www.gatsbyjs.cn/",
+      "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/gatsby.png",
+      "alt": "Gatsby 中文文档",
+      "title": "Gatsby ",
+      "summarize": "中文文档",
+      "description": "Gatsby 是一个基于 React 的免费、开源框架，可以帮助开发人员构建快速的网站和应用程序。"
+    },
+    {
       "url": "https://nestjs.bootcss.com/",
       "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/nestjs.png",
       "alt": "Nest (NestJS) 是 Node.js 服务器端应用程序的框架",
@@ -679,14 +703,6 @@ export const projects = [
       "title": "AssemblyScript",
       "summarize": "为 WebAssembly 量身定制的编程语言",
       "description": "AssemblyScript 是 TypeScript 的一个严格的变体，它使用 Binaryen 将代码编译为 WebAssembly。AssemblyScript 能够生成精简的 WebAssembly 模块，并且只需通过 npm install 就能使用。"
-    },
-    {
-      "url": "https://vitejs.bootcss.com/",
-      "logo": "https://cdn.jsdelivr.net/npm/@bootcss/www.bootcss.com@0.0.43/dist/img/vitejs.png",
-      "alt": "Vite.js 是新一代的前端开发工具链",
-      "title": "Vite.js",
-      "summarize": "新一代的前端开发工具链",
-      "description": "Vite.js 是新一代的前端开发工具链，旨在提升前端开发体验。Vite.js 包含两个重要的组成部分：支持原生 JavaScript 模块的开发服务器，以及基于 Rollup 的打包工具。"
     },
     {
       "url": "https://rematchjs.bootcss.com/",

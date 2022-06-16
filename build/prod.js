@@ -70,8 +70,8 @@ const webpackConfig = {
     output: {
         path: resolvePath('dist/'),
         publicPath: '/',
-        filename: 'js/[name].[contentHash:8].js',
-        chunkFilename: 'js/chunk/[name].[contentHash:8].js'
+        filename: 'js/[name].[contenthash:8].js',
+        chunkFilename: 'js/chunk/[name].[contenthash:8].js'
     },
     module: {
         rules: [
@@ -141,8 +141,8 @@ const webpackConfig = {
         }),
 
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[contenthash:].css',
-            chunkFilename: 'css/[name].[contenthash:].css'
+            filename: 'css/[name].[contenthash:8].css',
+            chunkFilename: 'css/[name].[contenthash:8].css'
         }),
 
         new Webpack.NamedChunksPlugin(getNamedChunks()),
